@@ -1,8 +1,13 @@
 import { Response } from "express";
 
 export default function errorHandler(res: Response, error: any) {
+  const statusCode = error.status || 500;
+  const message = error.message || "Internal Server Error";
+
   console.error(error);
-  res.status(500).json({
-    error: error || "An unexpected error occured",
+  res.status(statusCode).json({
+    error: {
+      message,
+    },
   });
 }

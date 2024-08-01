@@ -1,7 +1,3 @@
-// import fs from "node:fs";
-// import axios from "axios";
-// import FormData from "form-data";
-
 import fs from "fs";
 import { Response } from "express";
 import errorHandler from "../utils/errorHandler";
@@ -12,7 +8,6 @@ interface payloadInterface {
 }
 async function handleStability(payload: payloadInterface, res: Response) {
   try {
-    console.log("key:", process.env.STABILITY_API_KEY);
     const response = await fetch(
       `https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image`,
       {

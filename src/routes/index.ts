@@ -1,11 +1,11 @@
-import express, { Response } from "express";
-import { controller } from "../controllers/controller";
+import express, { Request, Response } from "express";
+import { controllerRouter } from "../controllers/controller";
 
 const router = express.Router();
 
-router.post("/prompt", controller);
+router.post("/prompt", controllerRouter);
 
-router.get("/health", (res: Response) => {
+router.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({ status: "OK", message: "Service is healthy" });
 });
 
