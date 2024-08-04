@@ -17,26 +17,28 @@ export async function controllerRouter(req: Request, res: Response) {
   }
   const { prompt, selectedAPI, output_format } = req.body;
   try {
+    let result;
     switch (selectedAPI) {
       case "replicate":
-        await handleReplicate(prompt, res);
+        result = await handleReplicate(prompt, res);
         break;
       case "stableDiffusion":
-        await handleStability({ prompt, output_format }, res);
+        result = await handleStability({ prompt, output_format }, res);
         break;
       case "huggingFace":
-        await handleHuggingFace(res);
+        result = await handleHuggingFace(res);
         break;
       case "claude":
-        await handlePrompt(prompt, res);
+        result = await handlePrompt(prompt, res);
         break;
       case "zeroGPT":
-        await handleDetect(prompt, res);
+        result = await handleDetect(prompt, res);
         break;
       default:
         throw new Error("Invalid API Selection");
         break;
     }
+    res.json({ status: 'Success', data:result, error: null})
   } catch (e) {
     errorHandler(res, e);
   }

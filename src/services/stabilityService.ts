@@ -6,6 +6,15 @@ interface payloadInterface {
   prompt: string;
   output_format: string;
 }
+
+interface GenerationResponse {
+  artifacts: Array<{
+    base64: string;
+    seed: number;
+    finishReason: string;
+  }>;
+}
+
 async function handleStability(payload: payloadInterface, res: Response) {
   try {
     const response = await fetch(
@@ -36,23 +45,14 @@ async function handleStability(payload: payloadInterface, res: Response) {
       throw new Error(`Non-200 response: ${await response.text()}`);
     }
 
-    interface GenerationResponse {
-      artifacts: Array<{
-        base64: string;
-        seed: number;
-        finishReason: string;
-      }>;
-    }
-
     const responseJSON = (await response.json()) as GenerationResponse;
 
-    responseJSON.artifacts.forEach((image, index) => {
-      fs.writeFileSync(
-        `.v1_txt2img_${index}.png`,
-        Buffer.from(image.base64, "base64")
-      );
-    });
-    res.json({ result: "Image Successfully generated" });
+    const image = responseJSON.artifacts[0].base64;
+
+    return {
+      model: 'stableDiffusion',
+      content: image
+    }
   } catch (e) {
     errorHandler(res, e);
   }
