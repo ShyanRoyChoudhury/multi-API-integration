@@ -1,6 +1,7 @@
 import fs from "fs";
 import { Response } from "express";
 import errorHandler from "../utils/errorHandler";
+import { ResponseSchema } from "../models/model";
 
 interface payloadInterface {
   prompt: string;
@@ -48,6 +49,11 @@ async function handleStability(payload: payloadInterface, res: Response) {
     const responseJSON = (await response.json()) as GenerationResponse;
 
     const image = responseJSON.artifacts[0].base64;
+    await ResponseSchema.create({
+      model: 'stableDiffusion',
+      prompt: payload.prompt,
+      content: image
+    })
 
     return {
       model: 'stableDiffusion',

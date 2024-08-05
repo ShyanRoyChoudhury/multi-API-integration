@@ -1,6 +1,7 @@
 import { Response } from "express";
 import errorHandler from "../utils/errorHandler";
 import axios from "axios";
+import { ResponseSchema } from "../models/model";
 
 // async function handleDetect(prompt: string, res: Response) {
 // let data = JSON.stringify({
@@ -46,6 +47,13 @@ async function handleDetect(prompt: string, res: Response) {
   try {
     const response = await axios.request(options);
     console.log(response.data);
+    await ResponseSchema.create({
+      model: 'zeroGPT',
+      prompt,
+      content: response.data
+    })
+    
+
     return {
       model: 'zeroGPT',
       content: response.data

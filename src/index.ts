@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import mainRouter from "./routes";
 import "./config/config";
+import { connectDB } from "./utils/db";
 export const app = express();
+connectDB();
 
 const corsOptions = {
     origin: '*',

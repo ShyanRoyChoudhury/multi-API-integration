@@ -1,6 +1,7 @@
 import Replicate from "replicate";
 import { Response } from "express";
 import errorHandler from "../utils/errorHandler";
+import { ResponseSchema } from "../models/model";
 
 async function handleReplicate(prompt: string, res: Response) {
   const replicate = new Replicate({
