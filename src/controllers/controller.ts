@@ -38,6 +38,7 @@ export async function controllerRouter(req: Request, res: Response) {
         throw new Error("Invalid API Selection");
         break;
     }
+    console.log({ status: 'Success', data:result, error: null})
     res.json({ status: 'Success', data:result, error: null})
   } catch (e) {
     errorHandler(res, e);

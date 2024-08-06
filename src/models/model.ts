@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = new mongoose.Schema({
     model: {
       type: String,
-      enum: ['replicate', 'stableDiffusion', 'zeroGPT'],
+      enum: ['replicate', 'stableDiffusion', 'zeroGPT', 'claude'],
       required: true
     },
     prompt: {

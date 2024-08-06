@@ -1,6 +1,4 @@
-import fs from "fs";
 import { Response } from "express";
-import errorHandler from "../utils/errorHandler";
 import { ResponseSchema } from "../models/model";
 
 interface payloadInterface {
@@ -60,7 +58,7 @@ async function handleStability(payload: payloadInterface, res: Response) {
       content: image
     }
   } catch (e) {
-    errorHandler(res, e);
+    throw e
   }
 }
 export default handleStability;

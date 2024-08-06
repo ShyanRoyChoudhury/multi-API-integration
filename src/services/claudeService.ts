@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { Response } from "express";
-import errorHandler from "../utils/errorHandler";
+import { ResponseSchema } from "../models/model";
 
 async function handlePrompt(prompt: string, res: Response) {
   try {
@@ -12,7 +12,7 @@ async function handlePrompt(prompt: string, res: Response) {
       model: "claude-3-haiku-20240307",
       max_tokens: 500,
       temperature: 0,
-      system: "Respond only with short poems.",
+      system: "",
       messages: [
         {
           role: "user",
@@ -28,11 +28,17 @@ async function handlePrompt(prompt: string, res: Response) {
     if (!response || !response.content) {
       throw new Error("Invalid response from API");
     }
-
-    res.json({ response: response.content });
+    ResponseSchema.create({
+      model: 'claude',
+      prompt,
+      content: response.content
+    })
+    return { 
+      model: 'claude',
+      response: response.content
+    };
   } catch (error) {
-    console.error(error);
-    errorHandler(res, error);
+    throw error
   }
 }
 
